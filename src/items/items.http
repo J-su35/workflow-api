@@ -1,0 +1,64 @@
+#  items.http
+### create
+POST http://localhost:3000/items
+Content-Type: application/json
+
+{
+    "title": "Mouse",
+    "amount": 20,
+    "price": 2500,
+    "contactMobileNo": "0891234567"
+}
+### create 2
+POST http://localhost:3000/items
+Content-Type: application/json
+
+{
+    "title": "Acer Laptop",
+    "amount": 25,
+    "price": 25000,
+    "contactMobileNo": "0890234567"
+}
+
+### find all
+GET http://localhost:3000/items
+
+### find one
+GET http://localhost:3000/items/2
+
+### update
+PATCH http://localhost:3000/items/2
+Content-Type: application/json
+
+{
+    "title": "Mouse wireless",
+    "contactMobileNo": "0891244567"
+}
+
+### delete
+DELETE http://localhost:3000/items/3
+
+
+
+### Test failure - find one by string
+GET http://localhost:3000/items/A
+
+### Test failure - create with wrong amount number type
+POST http://localhost:3000/items
+Content-Type: application/json
+
+{
+    "title": "Printer",
+    "amount": "SHOUD_BE_NUM",
+    "price": 5000    
+}
+
+### Test failure - create with empty string
+POST http://localhost:3000/items
+Content-Type: application/json
+
+{
+    "title": "",
+    "amount": "SHOUD_BE_NUM",
+    "price": 5000    
+}
