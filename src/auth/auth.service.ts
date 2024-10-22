@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { LoggedInDto } from './dto/logged-in.dto';
@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
 
-  // private logger = new Logger(); //waiting
+  private logger = new Logger(); //logging
 
   constructor(
     private usersService: UsersService, 
@@ -18,14 +18,13 @@ export class AuthService {
     private configService: ConfigService
   ) {}
 
-
-
   async validateUser(username: string, password: string): Promise<LoggedInDto> {
 
     // find user by username
     const user = await this.usersService.findOneByUsername(username);
     if (!user) {
-      console.log(`user not found: username=${username}`)
+      // console.log(`user not found: username=${username}`)
+      this.logger.debug(`user not found: username=${username}`, AuthService.name)
       return null
     }
 
@@ -34,8 +33,8 @@ export class AuthService {
       const { password, ...userWithoutPassword} = user;
       return userWithoutPassword;
     } else {
-      console.log(`wrong username or password: username=${username}`)
-      // this.logger.debug(`wrong password: username=${username}`, AuthService.name)
+      // console.log(`wrong username or password: username=${username}`)
+      this.logger.debug(`wrong username or password: username=${username}`, AuthService.name)
       return null
     }
   }

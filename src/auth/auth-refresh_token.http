@@ -13,6 +13,11 @@ Content-Type: application/json
 @authRefreshToken = {{login.response.body.refresh_token}}
 
 
+### find all
+GET http://localhost:3000/items
+Authorization: Bearer {{authToken}}
+
+
 ### refresh
 POST http://localhost:3000/auth/refresh
 Authorization: Bearer {{authRefreshToken}}
