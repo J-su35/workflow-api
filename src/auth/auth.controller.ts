@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { LoggedInDto } from './dto/logged-in.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -10,8 +11,10 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@Request() request: any) {
-    const access_token = 'FAKE_TOKEN'
+  // login(@Request() request: any) {
+    login(@Request() request: { user : LoggedInDto }) {
+    // const access_token = 'FAKE_TOKEN'
+    const access_token = this.authService.login(request.user)
     return { access_token  };
   }
 
