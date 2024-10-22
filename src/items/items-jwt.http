@@ -1,0 +1,87 @@
+# items-jwt.http
+### auth login
+
+# @name login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "u1001",
+    "password": "user01"
+}
+
+###
+@authToken = {{login.response.body.access_token}}
+
+
+### find all
+GET http://localhost:3000/items
+Authorization: Bearer {{authToken}}
+
+### approve
+PATCH http://localhost:3000/items/1/approve
+Authorization: Bearer {{authToken}}
+
+### reject expect fail
+PATCH http://localhost:3000/items/1/reject
+Authorization: Bearer {{authToken}}
+
+### find all with static jwt
+GET http://localhost:3000/items
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1MTAwNiIsInJvbGUiOiJVU0VSIiwic3ViIjo3LCJpYXQiOjE3Mjc3MDU4NDV9.g9My7bo039yYoYP1tMg3TNPsy_PRUZpIgoEYvoMkDTU
+
+
+### find all with invalid jwt
+GET http://localhost:3000/items
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJ1MTAwNiIsInJvbGUiOiJVU0VSIiwic3ViIjo3LCJpYXQiOjE3Mjc3MDE0NTh9.6nVoU3NazKVijuhNclLtm1nil8UAeflXjPHFIzm_MGs
+
+### Admin Zone
+# @name loginAdmin
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "ny3@RG8_e97"
+}
+
+###
+@authTokenAdmin = {{loginAdmin.response.body.access_token}}
+
+### find all
+GET http://localhost:3000/items
+Authorization: Bearer {{authTokenAdmin}}
+
+### approve
+PATCH http://localhost:3000/items/1/approve
+Authorization: Bearer {{authTokenAdmin}}
+
+### reject
+PATCH http://localhost:3000/items/1/reject
+Authorization: Bearer {{authTokenAdmin}}
+
+### Manager Zone
+###
+# @name loginManager
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "m1001",
+    "password": "manager01"
+}
+
+###
+@authTokenManager = {{loginManager.response.body.access_token}}
+
+### find all
+GET http://localhost:3000/items
+Authorization: Bearer {{authTokenManager}}
+
+### Manager approve
+PATCH http://localhost:3000/items/1/approve
+Authorization: Bearer {{authTokenManager}}
+
+### Manager reject
+PATCH http://localhost:3000/items/1/reject
+Authorization: Bearer {{authTokenManager}}
